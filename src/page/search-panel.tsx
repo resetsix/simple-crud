@@ -1,7 +1,6 @@
 import React from "react";
 import { Form, Input, Select } from "antd";
 import { User } from "../types/users";
-import { Project } from "../types/projects";
 
 interface SearchPanelType {
   param: {
@@ -16,10 +15,22 @@ export const SearchPanel = ({ param, users, setParam }: SearchPanelType) => {
   return (
     <Form layout="inline">
       <Form.Item>
-        <Input placeholder="项目名" value={param.name} />
+        <Input
+          placeholder="项目名"
+          value={param.name}
+          onChange={(e) => {
+            setParam({ ...param, name: e.target.value });
+          }}
+        />
       </Form.Item>
       <Form.Item>
-        <Select value="" style={{width:'90px'}}>
+        <Select
+          value={param.personId}
+          style={{ width: "90px" }}
+          onChange={(value) => {
+            setParam({ ...param, personId: value });
+          }}
+        >
           <Select.Option value="">负责人</Select.Option>
           {users.map((user) => (
             <Select.Option value={user.id} key={user.id}>
