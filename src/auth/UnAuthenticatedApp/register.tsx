@@ -1,14 +1,16 @@
 import { Form } from "antd";
 import Button from "antd/es/button";
 import Input from "antd/es/input";
+import { useAsync } from "../../hooks/useAsync";
 import { useAuth } from "../../hooks/useAuth";
 import { IAuth } from "../../types/IAuth";
 
 export const RegisterScreen = () => {
   const { register } = useAuth();
+  const { run, isLoading } = useAsync();
 
   const handleRegister = (values: IAuth) => {
-    register(values);
+    run(register(values));
   };
   return (
     <Form onFinish={handleRegister}>
@@ -65,7 +67,12 @@ export const RegisterScreen = () => {
         />
       </Form.Item>
       <Form.Item>
-        <Button style={{ width: "100%" }} type="primary" htmlType="submit">
+        <Button
+          loading={isLoading}
+          style={{ width: "100%" }}
+          type="primary"
+          htmlType="submit"
+        >
           注册
         </Button>
       </Form.Item>

@@ -5,6 +5,7 @@ import { cleanObject } from "../utils";
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import { useHttp } from "../hooks/useHttp";
+import { useAsync } from "../hooks/useAsync";
 
 export const ProjectList = () => {
   const [param, setParam] = useState({
@@ -18,19 +19,22 @@ export const ProjectList = () => {
   const debounceValue = useDebounce(param, 800);
 
   const client = useHttp();
+  const { run, isLoading } = useAsync();
 
   useMount(() => {
-    client("users").then(setUsers);
+    run(client("users").then(setUsers));
   });
 
   useEffect(() => {
-    client("projects", { data: cleanObject(debounceValue) }).then(setLists);
+    run(
+      client("projects", { data: cleanObject(debounceValue) }).then(setLists)
+    );
   }, [debounceValue]);
 
   return (
     <div>
       <SearchPanel param={param} users={users} setParam={setParam} />
-      <List users={users} lists={lists} />
+      <List loading={isLoading} users={users} dataSource={lists} />
     </div>
   );
 };

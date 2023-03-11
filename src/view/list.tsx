@@ -6,10 +6,9 @@ import dayjs from "dayjs";
 
 interface ListType extends TableProps<Project> {
   users: User[];
-  lists: Project[];
 }
 
-export const List = ({ users, lists }: ListType) => {
+export const List = ({ users, ...rest }: ListType) => {
   return (
     <Table
       columns={[
@@ -45,7 +44,7 @@ export const List = ({ users, lists }: ListType) => {
           },
         },
       ]}
-      dataSource={lists}
+      {...rest}
     />
   );
 };

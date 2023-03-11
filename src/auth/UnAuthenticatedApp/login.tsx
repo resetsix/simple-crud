@@ -1,13 +1,15 @@
 import { Form } from "antd";
 import Button from "antd/es/button";
 import Input from "antd/es/input";
+import { useAsync } from "../../hooks/useAsync";
 import { useAuth } from "../../hooks/useAuth";
 import { IAuth } from "../../types/IAuth";
 
 export const LoginScreen = () => {
   const { login } = useAuth();
+  const { run, isLoading } = useAsync();
   const handleLogin = (values: IAuth) => {
-    login(values);
+    run(login(values));
   };
 
   return (
@@ -41,7 +43,12 @@ export const LoginScreen = () => {
         />
       </Form.Item>
       <Form.Item>
-        <Button style={{ width: "100%" }} type="primary" htmlType="submit">
+        <Button
+          loading={isLoading}
+          style={{ width: "100%" }}
+          type="primary"
+          htmlType="submit"
+        >
           登录
         </Button>
       </Form.Item>
