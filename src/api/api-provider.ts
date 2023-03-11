@@ -7,7 +7,7 @@ const localStorageKey = "__auth-token__";
 export const getToken = () => localStorage.getItem(localStorageKey);
 
 const hanleUserResponse = ({ user }: { user: User }) => {
-  localStorage.setItem(localStorageKey, user.token || "");
+  localStorage.setItem(localStorageKey, user.token);
   return user;
 };
 
