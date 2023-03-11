@@ -26,7 +26,6 @@ export const SearchPanel = ({ param, users, setParam }: SearchPanelType) => {
       <Form.Item>
         <Select
           value={param.personId}
-          style={{ width: "90px" }}
           onChange={(value) => {
             setParam({ ...param, personId: value });
           }}

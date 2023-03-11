@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { apiUrl } from "../constant/api";
 import { useDebounce } from "../hooks/useDebounce";
 import { useMount } from "../hooks/useMount";
 import { cleanObject } from "../utils";
-import { List } from "./list";
 import { SearchPanel } from "./search-panel";
-import qs from "qs";
+import { List } from "./list";
+import { useHttp } from "../hooks/useHttp";
 
 export const ProjectList = () => {
   const [param, setParam] = useState({
@@ -18,22 +17,14 @@ export const ProjectList = () => {
 
   const debounceValue = useDebounce(param, 800);
 
+  const client = useHttp();
+
   useMount(() => {
-    fetch(`${apiUrl}/users`).then(async (res) => {
-      if (res.ok) {
-        setUsers(await res.json());
-      }
-    });
+    client("users").then(setUsers);
   });
 
   useEffect(() => {
-    fetch(
-      `${apiUrl}/projects/?${qs.stringify(cleanObject(debounceValue))}`
-    ).then(async (res) => {
-      if (res.ok) {
-        setLists(await res.json());
-      }
-    });
+    client("projects", { data: cleanObject(debounceValue) }).then(setLists);
   }, [debounceValue]);
 
   return (

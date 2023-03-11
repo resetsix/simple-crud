@@ -18,13 +18,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const login = (data: IAuth) => auth.login(data).then(setUser);
+  const register = (data: IAuth) => auth.register(data).then(setUser);
+  const logout = () => auth.logout().then(() => setUser(null));
 
-  const register = async (data: IAuth) => {
-    await auth.register(data).then(setUser);
-  };
-  const logout = async () => {
-    await auth.logout().then(() => setUser(null));
-  };
+  // const login = async (data: IAuth) => {
+  //   await auth.register(data).then(setUser);
+  // };
+
+  // const register = async (data: IAuth) => {
+  //   await auth.register(data).then(setUser);
+  // }; 
+  // const logout = async () => {
+  //   await auth.logout().then(() => setUser(null));
+  // };
   return (
     <AuthContext.Provider
       value={{ user, login, register, logout }}
