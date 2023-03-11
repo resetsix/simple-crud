@@ -1,5 +1,6 @@
-import { Button, Card } from "antd";
+import { Button, Card, Typography } from "antd";
 import { useState } from "react";
+import { useAsync } from "../../hooks/useAsync";
 import { LoginScreen } from "./login";
 import { RegisterScreen } from "./register";
 
@@ -13,7 +14,8 @@ export const UnAuthenticatedApp = () => {
         alignItems: "center",
       }}
     >
-      <Card >
+      <Card>
+        <h1>{isLogin ? "请登录" : "请注册"}</h1>
         {isLogin ? <LoginScreen /> : <RegisterScreen />}
         <Button
           type="link"
