@@ -3,6 +3,7 @@ import Button from "antd/es/button";
 import Input from "antd/es/input";
 import { useAsync } from "../../hooks/useAsync";
 import { useAuth } from "../../hooks/useAuth";
+import { useTitle } from "../../hooks/useTitle";
 import { IAuth } from "../../types/IAuth";
 
 export const LoginScreen = ({onError}: {onError:(onError:Error) => void}) => {
