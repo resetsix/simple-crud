@@ -9,7 +9,7 @@ export const LoginScreen = ({onError}: {onError:(onError:Error) => void}) => {
   const { login } = useAuth();
   const { run, isLoading } = useAsync();
   const handleLogin = (values: IAuth) => {
-    run(login(values)).catch(e => onError(e))
+    run(login(values).catch((e) => onError(e)));
   };
 
   return (

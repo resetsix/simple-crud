@@ -12,14 +12,7 @@ const defaultInitialState: State<null> = {
   error: null,
 };
 
-const ErrorConfig = {
-  throwError: false,
-};
-
-export const useAsync = <T>(
-  initialState?: State<T>,
-  initialConfig?: typeof ErrorConfig
-) => {
+export const useAsync = <T>(initialState?: State<T>) => {
   const config = {
     ...defaultInitialState,
     ...initialState,
@@ -49,10 +42,6 @@ export const useAsync = <T>(
         return data;
       })
       .catch((err) => {
-        if (initialConfig) {
-          ErrorConfig.throwError = true;
-          return Promise.reject(err);
-        }
         setError(err);
       });
   };

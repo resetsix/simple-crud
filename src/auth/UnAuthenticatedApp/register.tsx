@@ -10,7 +10,7 @@ export const RegisterScreen = ({ onError }: { onError: (onError: Error) => void 
   const { run, isLoading } = useAsync();
 
   const handleRegister = (values: IAuth) => {
-    run(register(values)).catch(e => onError(e))
+    run(register(values).catch((e) => onError(e)));
   };
   return (
     <Form onFinish={handleRegister}>
