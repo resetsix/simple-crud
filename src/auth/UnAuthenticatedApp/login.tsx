@@ -5,11 +5,11 @@ import { useAsync } from "../../hooks/useAsync";
 import { useAuth } from "../../hooks/useAuth";
 import { IAuth } from "../../types/IAuth";
 
-export const LoginScreen = () => {
+export const LoginScreen = ({onError}: {onError:(onError:Error) => void}) => {
   const { login } = useAuth();
-  const { run, isLoading } = useAsync();
+  const {isLoading } = useAsync();
   const handleLogin = (values: IAuth) => {
-    run(login(values));
+    (login(values)).catch(e => onError(e))
   };
 
   return (

@@ -5,12 +5,12 @@ import { useAsync } from "../../hooks/useAsync";
 import { useAuth } from "../../hooks/useAuth";
 import { IAuth } from "../../types/IAuth";
 
-export const RegisterScreen = () => {
+export const RegisterScreen = ({ onError }: { onError: (onError: Error) => void }) => {
   const { register } = useAuth();
-  const { run, isLoading } = useAsync();
+  const { isLoading } = useAsync();
 
   const handleRegister = (values: IAuth) => {
-    run(register(values));
+    (register(values)).catch(e => onError(e))
   };
   return (
     <Form onFinish={handleRegister}>
