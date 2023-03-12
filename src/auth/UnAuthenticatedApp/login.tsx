@@ -7,9 +7,9 @@ import { IAuth } from "../../types/IAuth";
 
 export const LoginScreen = ({onError}: {onError:(onError:Error) => void}) => {
   const { login } = useAuth();
-  const {isLoading } = useAsync();
+  const { run, isLoading } = useAsync();
   const handleLogin = (values: IAuth) => {
-    (login(values)).catch(e => onError(e))
+    run(login(values)).catch(e => onError(e))
   };
 
   return (
