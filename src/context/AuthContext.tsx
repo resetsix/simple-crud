@@ -1,5 +1,7 @@
 import React, { ReactNode, useState } from "react";
 import * as auth from "../api/api-provider";
+import { FullPageBackError, FullPageLoading } from "../components/lib";
+import { useAsync } from "../hooks/useAsync";
 import { useMount } from "../hooks/useMount";
 import { IAuth } from "../types/IAuth";
 import { User } from "../types/users";
@@ -9,7 +11,7 @@ const bootStrapUser = async () => {
   let user = null;
   const token = auth.getToken();
   if (token) {
-    const data = await http("me", { token });
+    const data = await http("me", { token: token });
     user = data.user;
   }
   return user;
@@ -27,15 +29,28 @@ export const AuthContext = React.createContext<
 AuthContext.displayName = "AuthContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const {
+    run,
+    error,
+    isIdle,
+    isLoading,
+    isError,
+    setData: setUser,
+    setError,
+    data: user,
+  } = useAsync<User | null>();
 
   const login = (data: IAuth) => auth.login(data).then(setUser);
   const register = (data: IAuth) => auth.register(data).then(setUser);
   const logout = () => auth.logout().then(() => setUser(null));
 
   useMount(() => {
-    bootStrapUser().then(setUser);
+    run(bootStrapUser());
   });
+
+  if (isIdle || isLoading) return <FullPageLoading />;
+
+  if (isError) return <FullPageBackError error={error} />;
 
   // const login = async (data: IAuth) => {
   //   await auth.register(data).then(setUser);
