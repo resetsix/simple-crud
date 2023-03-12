@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+      闭包梳理
+     -->
+    <script>
+      function test() {
+        // 初始值
+        let num = 0;
+        function test1() {
+          // +1操作
+          num += 1;
+          // message字符串引用了num变量
+          const message = `message is num:${num}`;
+          // 闭包函数：引用unmount函数外的变量 message
+          return function unmount() {
+            console.log(message);
+          };
+        }
+        // test()函数返回
+        return test1;
+      }
+      // 将test()的结果test1()函数引用赋值给a
+      const a = test();
+      // 将test1()函数的结果unmount函数赋值给unmount变量。message1-num1
+      const unmount = a(); // essage is num:1
+      a(); //message2 - num2
+      a(); // 3
+      a(); // 4
+      a(); // 5
+      unmount(); // 看上去应该打印5，实际上打印了1。因为此处的unmount是num为1时的执行环境创建的，所以无论a执行多少次，unmount都是第一次创建的结果
+    </script>
+  </body>
+</html>
