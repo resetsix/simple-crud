@@ -27,16 +27,23 @@ interface IdSelectType
 const toNumber = (value: unknown) => (isNaN(Number(value)) ? 0 : Number(value));
 
 export const IdSelect = (props: IdSelectType) => {
+  // 从props参数中解构出value, onChange, defaultOptionName, option以及剩下参数rest
   const { value, onChange, defaultOptionName, options, ...rest } = props;
   return (
     <Select
+      // 将传入的value转换为number类型 并赋值给Select组件
       value={toNumber(value)}
+      // 监听事件：当option的id发生变化时，转换为number类型
       onChange={(value) => onChange(toNumber(value) || undefined)}
       {...rest}
     >
+      {/* 默认选项 value值为0 （最终会赋值成undefined） */}
       {defaultOptionName ? (
-        <Select.Option key={0} value={0}>{defaultOptionName}</Select.Option>
+        <Select.Option key={0} value={0}>
+          {defaultOptionName}
+        </Select.Option>
       ) : null}
+      {/* 子选项 */}
       {options?.map((option) => (
         <Select.Option key={option.id} value={option.id}>
           {option.name}
