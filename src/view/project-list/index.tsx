@@ -6,13 +6,15 @@ import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import { useHttp } from "../../hooks/useHttp";
 import { useAsync } from "../../hooks/useAsync";
-
+import { useUrlQuery } from "../../hooks/useUrlQuery";
 
 export const ProjectList = () => {
-  const [param, setParam] = useState({
+  const [, setParam] = useState({
     name: "",
     personId: "",
   });
+
+  const [param] = useUrlQuery(["name", "personId"]);
 
   const [users, setUsers] = useState([]);
   const [lists, setLists] = useState([]);
@@ -39,3 +41,5 @@ export const ProjectList = () => {
     </div>
   );
 };
+
+// ProjectList.whyDidYouRender = true
