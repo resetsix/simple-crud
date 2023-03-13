@@ -8,7 +8,6 @@ export const UnAuthenticatedApp = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState<Error | null>();
   useTitle("请登录或注册以继续", false);
-
   return (
     <div
       style={{

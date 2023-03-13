@@ -27,13 +27,20 @@ export const AuthenticatedApp = () => {
 
 const PageHeader = () => {
   const { logout } = useAuth();
+  // 退出时间
+  const handleLogout = () => {
+    // 清除User的token
+    logout();
+    // 重置路由
+    resetRouter();
+  };
   return (
     <div>
       {/* 回到初始路由 */}
       <Button type="link" onClick={() => resetRouter()}>
         <h1>Logo</h1>
       </Button>
-      <Button onClick={() => logout()}>退出</Button>
+      <Button onClick={() => handleLogout()}>退出</Button>
     </div>
   );
 };
