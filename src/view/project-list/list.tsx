@@ -16,6 +16,7 @@ export const List = ({ users, ...rest }: ListType) => {
       columns={[
         {
           title: "名称",
+          sorter: (a, b) => a.name.localeCompare(b.name),
           render(value, project) {
             return <Link to={String(project.id)}>{project.name}</Link>;
           },

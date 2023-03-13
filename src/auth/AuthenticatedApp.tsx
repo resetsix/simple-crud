@@ -1,8 +1,8 @@
 import { Button } from "antd";
-import { Route, Routes } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useTitle } from "../hooks/useTitle";
+import { resetRouter } from "../utils";
 import { ProjectScreen } from "../view/project";
 import { ProjectList } from "../view/project-list";
 
@@ -16,9 +16,10 @@ export const AuthenticatedApp = () => {
       <Routes>
         {/* 配置单个路由规则和渲染的组件 */}
         <Route path="/projects" element={<ProjectList />} />
-        <Route path="/projects:projectId/*" element={<ProjectScreen />} />
+        {/* 跳转到详情路由 */}
+        <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
         {/* 将 路径/ 导航到 /projects */}
-        <Route path="/" element={<Navigate to={"/projects"} />} />
+        <Route path="*" element={<Navigate to={"/projects"} />} />
       </Routes>
     </div>
   );
@@ -26,5 +27,13 @@ export const AuthenticatedApp = () => {
 
 const PageHeader = () => {
   const { logout } = useAuth();
-  return <Button onClick={() => logout()}>退出</Button>;
+  return (
+    <div>
+      {/* 回到初始路由 */}
+      <Button type="link" onClick={() => resetRouter()}>
+        <h1>Logo</h1>
+      </Button>
+      <Button onClick={() => logout()}>退出</Button>
+    </div>
+  );
 };
