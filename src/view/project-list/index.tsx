@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useDebounce } from "../hooks/useDebounce";
-import { useMount } from "../hooks/useMount";
-import { cleanObject } from "../utils";
+import { useDebounce } from "../../hooks/useDebounce";
+import { useMount } from "../../hooks/useMount";
+import { cleanObject } from "../../utils";
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import { useHttp } from "../hooks/useHttp";
-import { useAsync } from "../hooks/useAsync";
+import { useHttp } from "../../hooks/useHttp";
+import { useAsync } from "../../hooks/useAsync";
+
 
 export const ProjectList = () => {
   const [param, setParam] = useState({

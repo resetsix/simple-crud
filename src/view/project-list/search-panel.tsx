@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Select } from "antd";
-import { User } from "../types/users";
+import { User } from "../../types/users";
 
 interface SearchPanelType {
   param: {
@@ -20,8 +20,7 @@ export const SearchPanel = ({ param, users, setParam }: SearchPanelType) => {
           value={param.name}
           onChange={(e) => {
             setParam({ ...param, name: e.target.value });
-          }}
-        />
+          }} />
       </Form.Item>
       <Form.Item>
         <Select
