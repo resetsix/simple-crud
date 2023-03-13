@@ -11,6 +11,7 @@ interface ListType extends TableProps<Project> {
 export const List = ({ users, ...rest }: ListType) => {
   return (
     <Table
+      rowKey={"id"}
       columns={[
         {
           title: "名称",
