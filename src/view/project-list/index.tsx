@@ -10,7 +10,7 @@ export const ProjectList = () => {
   const [param, setParam] = useUrlQuery(["name", "personId"]);
   const debounceValue = useDebounce(param, 800);
 
-  const { data: users } = useUser(debounceValue);
+  const { data: users } = useUser();
   const { isLoading, data: lists } = useProjects(debounceValue);
 
   return (
