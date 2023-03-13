@@ -2,7 +2,7 @@ import { Button } from "antd";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useTitle } from "../hooks/useTitle";
-import { resetRouter } from "../utils";
+import { resetRouter } from "../utils/resetRouter";
 import { ProjectScreen } from "../view/project";
 import { ProjectList } from "../view/project-list";
 

@@ -10,6 +10,3 @@ export const cleanObject = (object: { [key: string]: unknown }) => {
   });
   return newObject;
 };
-
-// 重置路由
-export const resetRouter = () => window.location.href = window.location.origin
