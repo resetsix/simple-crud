@@ -2,16 +2,15 @@ import React from "react";
 import { useDebounce } from "../../hooks/useDebounce";
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import { useUrlQuery } from "../../hooks/useUrlQuery";
 import { useUser } from "../../hooks/useUser";
 import { useProjects } from "../../hooks/useProjects";
+import { useToNumberParam } from "../../hooks/useToNumberParam";
 
 export const ProjectList = () => {
-  const [param, setParam] = useUrlQuery(["name", "personId"]);
-  const debounceValue = useDebounce(param, 800);
+  const [param, setParam] = useToNumberParam();
 
   const { data: users } = useUser();
-  const { isLoading, data: lists } = useProjects(debounceValue);
+  const { isLoading, data: lists } = useProjects(useDebounce(param, 800));
 
   return (
     <div>

@@ -4,7 +4,6 @@ import { cleanObject } from "../utils";
 
 export const useUrlQuery = <K extends string>(keys: K[]) => {
   const [searchParam, setSearchParam] = useSearchParams();
-  console.log(searchParam);
   return [
     // 返回的第一个参数
     useMemo(() => {

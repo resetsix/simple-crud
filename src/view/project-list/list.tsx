@@ -15,13 +15,6 @@ export const List = ({ users, ...rest }: ListType) => {
       rowKey={"id"}
       columns={[
         {
-          title: "名称",
-          sorter: (a, b) => a.name.localeCompare(b.name),
-          render(value, project) {
-            return <Link to={String(project.id)}>{project.name}</Link>;
-          },
-        },
-        {
           title: "负责人",
           render(value, project) {
             return (
@@ -30,6 +23,13 @@ export const List = ({ users, ...rest }: ListType) => {
                   "未知"}
               </span>
             );
+          },
+        },
+        {
+          title: "名称",
+          sorter: (a, b) => a.name.localeCompare(b.name),
+          render(value, project) {
+            return <Link to={String(project.id)}>{project.name}</Link>;
           },
         },
         {
