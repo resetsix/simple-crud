@@ -1,43 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDebounce } from "../../hooks/useDebounce";
-import { useMount } from "../../hooks/useMount";
-import { cleanObject } from "../../utils";
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import { useHttp } from "../../hooks/useHttp";
-import { useAsync } from "../../hooks/useAsync";
 import { useUrlQuery } from "../../hooks/useUrlQuery";
+import { useUser } from "../../hooks/useUser";
+import { useProjects } from "../../hooks/useProjects";
 
 export const ProjectList = () => {
-  const [, setParam] = useState({
-    name: "",
-    personId: "",
-  });
-
-  const [param] = useUrlQuery(["name", "personId"]);
-
-  const [users, setUsers] = useState([]);
-  const [lists, setLists] = useState([]);
-
+  const [param, setParam] = useUrlQuery(["name", "personId"]);
   const debounceValue = useDebounce(param, 800);
 
-  const client = useHttp();
-  const { run, isLoading } = useAsync();
-
-  useMount(() => {
-    run(client("users").then(setUsers));
-  });
-
-  useEffect(() => {
-    run(
-      client("projects", { data: cleanObject(debounceValue) }).then(setLists)
-    );
-  }, [debounceValue]);
+  const { data: users } = useUser(debounceValue);
+  const { isLoading, data: lists } = useProjects(debounceValue);
 
   return (
     <div>
-      <SearchPanel param={param} users={users} setParam={setParam} />
-      <List loading={isLoading} users={users} dataSource={lists} />
+      <SearchPanel param={param} users={users || []} setParam={setParam} />
+      <List loading={isLoading} users={users || []} dataSource={lists || []} />
     </div>
   );
 };
