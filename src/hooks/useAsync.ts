@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useMountRef } from "../utils/isUnmount";
 
 interface State<T> {
@@ -24,38 +24,47 @@ export const useAsync = <T>(initialState?: State<T>) => {
 
   const mountRef = useMountRef();
 
-  const setData = (data: T) =>
-    setState({
-      data,
-      error: null,
-      stat: "success",
-    });
-  const setError = (error: Error) =>
-    setState({
-      error,
-      data: null,
-      stat: "error",
-    });
+  const setData = useCallback(
+    (data: T) =>
+      setState({
+        data,
+        error: null,
+        stat: "success",
+      }),
+    []
+  );
+  const setError = useCallback(
+    (error: Error) =>
+      setState({
+        error,
+        data: null,
+        stat: "error",
+      }),
+    []
+  );
   //用于触发异步函数
-  const run = (promise: Promise<T>, retryConfig?: () => Promise<T>) => {
-    if (!promise || !promise.then) {
-      throw new Error("请传入Promise类型数据");
-    }
-    // 如果存在（传入）一个promise函数的引用，那么就记住这一次promise请求 方便重发
-    if (retryConfig) {
-      // 既要请求的结果，也要请求的方法
-      setRetry(() => () => run(retryConfig(), retryConfig));
-    }
-    setState({ ...state, stat: "loading" });
-    return promise
-      .then((data) => {
-        if (mountRef.current) setData(data);
-        return data;
-      })
-      .catch((err) => {
-        setError(err);
-      });
-  };
+  const run = useCallback(
+    (promise: Promise<T>, retryConfig?: () => Promise<T>) => {
+      if (!promise || !promise.then) {
+        throw new Error("请传入Promise类型数据");
+      }
+      // 如果存在（传入）一个promise函数的引用，那么就记住这一次promise请求 方便重发
+      if (retryConfig) {
+        // 既要请求的结果，也要请求的方法
+        setRetry(() => () => run(retryConfig(), retryConfig));
+      }
+      setState((prevState) => ({ ...prevState, stat: "loading" }));
+      return promise
+        .then((data) => {
+          if (mountRef.current) setData(data);
+          return data;
+        })
+        .catch((err) => {
+          setError(err);
+        });
+    },
+    [mountRef, setData, setError]
+  );
   return {
     run,
     setData,
