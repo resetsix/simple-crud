@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMountRef } from "../utils/isUnmount";
 
 interface State<T> {
   stat: "idle" | "loading" | "success" | "error";
@@ -20,6 +21,8 @@ export const useAsync = <T>(initialState?: State<T>) => {
   const [state, setState] = useState<State<T>>(config);
 
   const [retry, setRetry] = useState(() => () => {});
+
+  const mountRef = useMountRef();
 
   const setData = (data: T) =>
     setState({
@@ -46,7 +49,7 @@ export const useAsync = <T>(initialState?: State<T>) => {
     setState({ ...state, stat: "loading" });
     return promise
       .then((data) => {
-        setData(data);
+        if (mountRef.current) setData(data);
         return data;
       })
       .catch((err) => {
