@@ -14,7 +14,7 @@ interface ListType extends TableProps<Project> {
 
 export const List = ({ users, ...rest }: ListType) => {
   const { mutate } = useEditProject();
-  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(rest.refresh);
   return (
     <Table
       rowKey={"id"}

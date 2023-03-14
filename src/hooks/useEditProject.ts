@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import { Project } from "../types/projects";
-import { cleanObject } from "../utils";
 import { useAsync } from "./useAsync";
 import { useHttp } from "./useHttp";
 

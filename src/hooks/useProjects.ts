@@ -7,8 +7,9 @@ import { useHttp } from "./useHttp";
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
   const { run, ...rest } = useAsync<Project[]>();
+  const reClient = () => client("projects", { data: cleanObject(param || {}) });
   useEffect(() => {
-    run(client("projects", { data: cleanObject(param || {}) }));
+    run(reClient(), reClient);
   }, [param]);
   return rest;
 };

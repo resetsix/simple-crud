@@ -10,12 +10,17 @@ export const ProjectList = () => {
   const [param, setParam] = useToNumberParam();
 
   const { data: users } = useUser();
-  const { isLoading, data: lists } = useProjects(useDebounce(param, 800));
+  const { isLoading, data: lists,retry } = useProjects(useDebounce(param, 800));
 
   return (
     <div>
       <SearchPanel param={param} users={users || []} setParam={setParam} />
-      <List loading={isLoading} users={users || []} dataSource={lists || []} />
+      <List
+        refresh={retry}
+        loading={isLoading}
+        users={users || []}
+        dataSource={lists || []}
+      />
     </div>
   );
 };
