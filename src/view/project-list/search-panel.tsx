@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Select } from "antd";
+import { Form, Input } from "antd";
 import { User } from "../../types/users";
 import { Project } from "../../types/projects";
 import { UserSelect } from "../../components/use-select";
@@ -10,7 +10,7 @@ interface SearchPanelType {
   setParam: (param: SearchPanelType["param"]) => void;
 }
 
-export const SearchPanel = ({ param, users, setParam }: SearchPanelType) => {
+export const SearchPanel = ({ param, setParam }: SearchPanelType) => {
   return (
     <Form layout="inline">
       <Form.Item>
@@ -30,19 +30,6 @@ export const SearchPanel = ({ param, users, setParam }: SearchPanelType) => {
             setParam({ ...param, personId: value });
           }}
         />
-        {/* <Select
-          value={param.personId}
-          onChange={(value) => {
-            setParam({ ...param, personId: value });
-          }}
-        > */}
-          {/* <Select.Option value="">负责人</Select.Option>
-          {users.map((user) => (
-            <Select.Option value={user.id} key={user.id}>
-              {user.name}
-            </Select.Option>
-          ))} */}
-        {/* </Select> */}
       </Form.Item>
     </Form>
   );

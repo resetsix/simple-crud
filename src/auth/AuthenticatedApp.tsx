@@ -1,10 +1,10 @@
 import { Button } from "antd";
-import { Route, Routes, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { useTitle } from "../hooks/useTitle";
 import { resetRouter } from "../utils/resetRouter";
-import { ProjectScreen } from "../view/project";
+import { useTitle } from "../hooks/useTitle";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { ProjectList } from "../view/project-list";
+import { ProjectScreen } from "../view/project";
 
 export const AuthenticatedApp = () => {
   useTitle("项目列表", false);
@@ -25,7 +25,7 @@ export const AuthenticatedApp = () => {
   );
 };
 
-const PageHeader = () => {
+export const PageHeader = () => {
   const { logout } = useAuth();
   // 退出时间
   const handleLogout = () => {
@@ -35,12 +35,14 @@ const PageHeader = () => {
     resetRouter();
   };
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
       {/* 回到初始路由 */}
-      <Button type="link" onClick={() => resetRouter()}>
-        <h1>Logo</h1>
-      </Button>
-      <Button onClick={() => handleLogout()}>退出</Button>
+      <div>
+        <Button type="link" onClick={() => resetRouter()}>
+          <h1>Logo</h1>
+        </Button>
+        <Button onClick={() => handleLogout()}>退出</Button>
+      </div>
     </div>
   );
 };

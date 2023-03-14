@@ -23,7 +23,7 @@ export const useAddProject = () => {
   const client = useHttp();
   const mutate = (params: Partial<Project>) => {
     return run(
-      client(`projects/${params.id}`, {
+      client(`projects`, {
         method: "POST",
         data: params,
       })

@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import * as auth from "../api/api-provider";
 import { FullPageBackError, FullPageLoading } from "../components/lib";
 import { useAsync } from "../hooks/useAsync";
@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isLoading,
     isError,
     setData: setUser,
-    setError,
     data: user,
   } = useAsync<User | null>();
 
