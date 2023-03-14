@@ -4,16 +4,40 @@ import { Project } from "../../types/projects";
 import { User } from "../../types/users";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { Pin } from "../../components/pin";
+import { useEditProject } from "../../hooks/useEditProject";
 
 interface ListType extends TableProps<Project> {
   users: User[];
+  refresh?: () => void;
 }
 
 export const List = ({ users, ...rest }: ListType) => {
+  const { mutate } = useEditProject();
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
   return (
     <Table
       rowKey={"id"}
+      pagination={false}
       columns={[
+        {
+          title: <Pin checked={true} disabled />,
+          render(value, project) {
+            return (
+              <Pin
+                checked={project.pin}
+                onCheckedChange={pinProject(project.id)}
+              />
+            );
+          },
+        },
+        {
+          title: "名称",
+          sorter: (a, b) => a.name.localeCompare(b.name),
+          render(value, project) {
+            return <Link to={String(project.id)}>{project.name}</Link>;
+          },
+        },
         {
           title: "负责人",
           render(value, project) {
@@ -23,13 +47,6 @@ export const List = ({ users, ...rest }: ListType) => {
                   "未知"}
               </span>
             );
-          },
-        },
-        {
-          title: "名称",
-          sorter: (a, b) => a.name.localeCompare(b.name),
-          render(value, project) {
-            return <Link to={String(project.id)}>{project.name}</Link>;
           },
         },
         {
